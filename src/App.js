@@ -1,12 +1,14 @@
 import React, { Component } from 'react';
 import './App.css';
-import Person from './Person/Person'
+import Person from './Person/Person';
+import Radium, { StyleRoot } from 'radium';
 
 class App extends Component {
   state = {
     persons: [
       {id: 'sdsa',name: 'Lucas', age: '26'},
-      {id: 'jhgh',name: 'Jhonathan', age: '24'}
+      {id: 'jhgh',name: 'Jhonathan', age: '24'},
+      {id: 'jhha',name: 'Edinalva', age: '26'}
     ],
     otherState: 'some other value',
     showPersons: false
@@ -44,11 +46,16 @@ class App extends Component {
   render() {
 
     const style = {
-      backgroundColor: 'white',
+      backgroundColor: 'green',
+      color: 'white',
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer'
+      cursor: 'pointer',
+      ':hover':{
+        backgroundColor: 'lightgreen',
+        color: 'black'
+      }
     };
 
     let persons = null;
@@ -66,20 +73,38 @@ class App extends Component {
           })}
         </div> 
       );
+
+      style.backgroundColor = 'red';
+      style[':hover'] = {
+        backgroundColor: 'salmon',
+        color: 'black'
+      }
+    }
+
+    const classes = [];
+    if(this.state.persons.length <= 2){
+      classes.push('red')
+    }
+
+    if(this.state.persons.length <= 1) {
+      classes.push('bold');
     }
 
     return (
-      <div className="App">
-        <h1>Hi, I'm a React App</h1>
-        <button 
-          style = {style}
-          onClick = {this.tooglePersonsHandler}>Toogle Persons</button>
+      <StyleRoot>
+        <div className="App">
+          <h1>Hi, I'm a React App</h1>
+          <p className = {classes.join(' ')}>This is really working</p>
+          <button 
+            style = {style}
+            onClick = {this.tooglePersonsHandler}>Toogle Persons</button>
 
-        {persons}
+          {persons}
 
-      </div>
+        </div>
+      </StyleRoot>
     );
   }
 }
 
-export default App;
+export default Radium(App);
